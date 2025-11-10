@@ -1,0 +1,39 @@
+{
+  "name": "gestao-financeira",
+  "version": "1.0.0",
+  "description": "Sistema de gestão financeira pessoal com interface de terminal",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "start:web": "node server-web.js",
+    "dev": "node --watch src/index.js",
+    "dev:web": "node --watch server-web.js",
+    "setup": "node scripts/setup.js"
+  },
+  "keywords": [
+    "financas",
+    "terminal",
+    "gestao"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "boxen": "^8.0.1",
+    "chalk": "^5.3.0",
+    "dotenv": "^16.4.5",
+    "express": "^5.1.0",
+    "figlet": "^1.8.0",
+    "gradient-string": "^3.0.0",
+    "inquirer": "^10.2.2",
+    "node-pty": "^1.0.0",
+    "ora": "^8.1.0",
+    "pg": "^8.13.1",
+    "socket.io": "^4.8.1",
+    "terminal-kit": "^3.1.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1"
+  }
+}
