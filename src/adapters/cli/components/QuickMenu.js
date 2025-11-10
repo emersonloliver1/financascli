@@ -38,7 +38,7 @@ export class QuickMenu {
         term.removeListener('key', keyHandler);
       };
 
-      const keyHandler = (name, matches, data) => {
+      const keyHandler = (name, _matches, _data) => {
         // CTRL+C para sair
         if (name === 'CTRL_C') {
           cleanup();
@@ -89,7 +89,27 @@ export class QuickMenu {
         const color = opcao.color || 'yellow';
 
         term.bold.white(`  ${numero}. `);
-        term[color](`${icon} ${opcao.name}\n`);
+
+        // Mapeamento de cores para Terminal-Kit
+        const colorMap = {
+          'red': term.red,
+          'green': term.green,
+          'yellow': term.yellow,
+          'blue': term.blue,
+          'cyan': term.cyan,
+          'magenta': term.magenta,
+          'white': term.white,
+          'gray': term.gray,
+          'brightRed': term.brightRed,
+          'brightGreen': term.brightGreen,
+          'brightYellow': term.brightYellow,
+          'brightBlue': term.brightBlue,
+          'brightCyan': term.brightCyan,
+          'brightMagenta': term.brightMagenta
+        };
+
+        const colorFn = colorMap[color] || term.yellow;
+        colorFn.bind(term)(`${icon} ${opcao.name}\n`);
       });
 
       term('\n');

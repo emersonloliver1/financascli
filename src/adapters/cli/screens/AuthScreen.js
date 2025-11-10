@@ -107,8 +107,8 @@ export class AuthScreen {
       if (!result.user.username) {
         console.log(createBox(
           `${icons.info} Você ainda não tem um username cadastrado!\n\n` +
-          `Com um username, você pode fazer login de forma mais rápida e fácil.\n` +
-          `Exemplo: ao invés de usar seu email, use apenas "joao123"`,
+          'Com um username, você pode fazer login de forma mais rápida e fácil.\n' +
+          'Exemplo: ao invés de usar seu email, use apenas "joao123"',
           { borderColor: 'yellow' }
         ));
         console.log('\n');
@@ -231,10 +231,10 @@ export class AuthScreen {
       console.log('\n');
       console.log(createBox(
         `${icons.info} Regras para o username:\n\n` +
-        `• Apenas letras, números e underscore (_)\n` +
-        `• Mínimo de 3 caracteres\n` +
-        `• Máximo de 20 caracteres\n` +
-        `• Deve ser único`,
+        '• Apenas letras, números e underscore (_)\n' +
+        '• Mínimo de 3 caracteres\n' +
+        '• Máximo de 20 caracteres\n' +
+        '• Deve ser único',
         { borderColor: 'cyan' }
       ));
       console.log('\n');
