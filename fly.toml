@@ -1,7 +1,7 @@
 # fly.toml app configuration file
-# Gerado para gestao-financeira
+# Gerado para financascli
 
-app = "gestao-financeira"
+app = "financascli"
 primary_region = "gru"  # São Paulo, Brasil
 
 [build]
