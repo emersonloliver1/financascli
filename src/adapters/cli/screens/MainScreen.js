@@ -6,6 +6,7 @@ import { DashboardScreen } from './DashboardScreen.js';
 import { ReportsScreen } from './ReportsScreen.js';
 import { BudgetScreen } from './BudgetScreen.js';
 import { GoalScreen } from './GoalScreen.js';
+import { ExportScreen } from './ExportScreen.js';
 import {
   clearScreen,
   createBox,
@@ -24,7 +25,8 @@ export class MainScreen {
     getDashboardDataUseCase = null,
     reportUseCases = null,
     budgetUseCases = null,
-    goalUseCases = null
+    goalUseCases = null,
+    exportUseCases = null
   ) {
     this.user = user;
     this.categoryUseCases = categoryUseCases;
@@ -33,6 +35,7 @@ export class MainScreen {
     this.reportUseCases = reportUseCases;
     this.budgetUseCases = budgetUseCases;
     this.goalUseCases = goalUseCases;
+    this.exportUseCases = exportUseCases;
   }
 
   /**
@@ -61,6 +64,7 @@ export class MainScreen {
         { name: 'Relatórios', value: 'reports', icon: '📈', color: 'magenta' },
         { name: 'Orçamentos', value: 'budgets', icon: '💰', color: 'cyan' },
         { name: 'Metas Financeiras', value: 'goals', icon: '🎯', color: 'green' },
+        { name: 'Exportar Dados', value: 'export', icon: '📤', color: 'blue' },
         { name: 'Configurações', value: 'settings', icon: '⚙️', color: 'blue' },
         { name: 'Sair', value: 'exit', icon: '❌', color: 'red' }
       ]
@@ -177,6 +181,14 @@ export class MainScreen {
           await goalScreen.show();
         } else {
           await this.showComingSoon('Metas Financeiras');
+        }
+        return await this.show();
+      case 'export':
+        if (this.exportUseCases) {
+          const exportScreen = new ExportScreen(this.exportUseCases);
+          await exportScreen.show(this.user);
+        } else {
+          await this.showComingSoon('Exportação de Dados');
         }
         return await this.show();
       case 'settings':

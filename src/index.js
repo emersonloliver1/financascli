@@ -40,6 +40,9 @@ import { DeleteGoalUseCase } from './application/use-cases/goals/DeleteGoalUseCa
 import { AddContributionUseCase } from './application/use-cases/goals/AddContributionUseCase.js';
 import { CompleteGoalUseCase } from './application/use-cases/goals/CompleteGoalUseCase.js';
 import { GetGoalStatsUseCase } from './application/use-cases/goals/GetGoalStatsUseCase.js';
+import { PDFExportService } from './infrastructure/services/PDFExportService.js';
+import { ExportTransactionsToPDFUseCase } from './application/use-cases/exports/ExportTransactionsToPDFUseCase.js';
+import { ExportReportToPDFUseCase } from './application/use-cases/exports/ExportReportToPDFUseCase.js';
 import { AuthScreen } from './adapters/cli/screens/AuthScreen.js';
 import { MainScreen } from './adapters/cli/screens/MainScreen.js';
 import { errorMessage } from './adapters/cli/utils/banner.js';
@@ -91,6 +94,9 @@ class App {
     this.addContributionUseCase = null;
     this.completeGoalUseCase = null;
     this.getGoalStatsUseCase = null;
+    this.pdfExportService = null;
+    this.exportTransactionsUseCase = null;
+    this.exportReportUseCase = null;
   }
 
   /**
@@ -167,6 +173,27 @@ class App {
       this.addContributionUseCase = new AddContributionUseCase(this.goalRepository);
       this.completeGoalUseCase = new CompleteGoalUseCase(this.goalRepository);
       this.getGoalStatsUseCase = new GetGoalStatsUseCase(this.goalRepository);
+
+      // Inicializar serviço de exportação
+      this.pdfExportService = new PDFExportService();
+
+      // Inicializar casos de uso de exportação
+      this.exportTransactionsUseCase = new ExportTransactionsToPDFUseCase(
+        this.transactionRepository,
+        this.pdfExportService
+      );
+
+      this.exportReportUseCase = new ExportReportToPDFUseCase(
+        this.pdfExportService,
+        {
+          monthly: this.generateMonthlyReportUseCase,
+          category: this.generateCategoryReportUseCase,
+          evolution: this.generateEvolutionReportUseCase,
+          top: this.generateTopTransactionsReportUseCase,
+          comparative: this.generateComparativeReportUseCase,
+          patterns: this.generatePatternAnalysisUseCase
+        }
+      );
 
       // Executar seed de categorias padrão (apenas primeira vez)
       await this.seedDefaultCategoriesUseCase.execute();
@@ -252,6 +279,10 @@ class App {
             addContribution: this.addContributionUseCase,
             completeGoal: this.completeGoalUseCase,
             getGoalStats: this.getGoalStatsUseCase
+          },
+          {
+            transactions: this.exportTransactionsUseCase,
+            report: this.exportReportUseCase
           }
         );
         const action = await mainScreen.show();

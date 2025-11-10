@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exportar Dados - Gestão Financeira</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .content {
+      padding: 40px;
+    }
+
+    .form-section {
+      margin-bottom: 30px;
+    }
+
+    .form-section h2 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #34495e;
+      font-size: 0.95rem;
+    }
+
+    select, input, button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    select:focus, input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    input[type="date"] {
+      cursor: pointer;
+    }
+
+    .date-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 10px;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .result {
+      margin-top: 30px;
+      padding: 25px;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .result.success {
+      background: #d4edda;
+      border: 2px solid #28a745;
+      color: #155724;
+      display: block;
+    }
+
+    .result.error {
+      background: #f8d7da;
+      border: 2px solid #dc3545;
+      color: #721c24;
+      display: block;
+    }
+
+    .result-icon {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .result h3 {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+    }
+
+    .result-info {
+      background: rgba(255, 255, 255, 0.7);
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+
+    .result-info p {
+      margin: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+    }
+
+    .result-info strong {
+      color: #2c3e50;
+    }
+
+    .download-btn {
+      background: #28a745;
+      margin-top: 20px;
+    }
+
+    .download-btn:hover {
+      background: #218838;
+      box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      color: #764ba2;
+      transform: translateX(-5px);
+    }
+
+    .info-box {
+      background: #e7f3ff;
+      border-left: 4px solid #2196f3;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+    }
+
+    .info-box p {
+      margin: 5px 0;
+      color: #1976d2;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 0;
+        border-radius: 0;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .header h1 {
+        font-size: 1.8rem;
+      }
+
+      .date-group {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📤 Exportar Dados</h1>
+      <p>Gere relatórios profissionais em PDF</p>
+    </div>
+
+    <div class="content">
+      <form id="exportForm">
+        <div class="form-section">
+          <h2>📋 Configurações de Exportação</h2>
+
+          <div class="form-group">
+            <label for="exportType">Tipo de Exportação:</label>
+            <select id="exportType" required>
+              <option value="transactions">📄 Transações</option>
+              <option value="report">📊 Relatório</option>
+            </select>
+          </div>
+
+          <div class="form-group hidden" id="reportTypeGroup">
+            <label for="reportType">Tipo de Relatório:</label>
+            <select id="reportType">
+              <option value="monthly">📅 Relatório Mensal</option>
+              <option value="category">📂 Relatório por Categoria</option>
+              <option value="evolution">📈 Relatório de Evolução</option>
+              <option value="top">🏆 Maiores Transações</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="periodGroup">
+            <label for="period">Período:</label>
+            <select id="period">
+              <option value="current-month">Mês Atual</option>
+              <option value="last-month">Mês Anterior</option>
+              <option value="last-3-months">Últimos 3 Meses</option>
+              <option value="last-6-months">Últimos 6 Meses</option>
+              <option value="current-year">Ano Atual</option>
+              <option value="custom">Personalizado</option>
+            </select>
+          </div>
+
+          <div class="form-group hidden" id="customDatesGroup">
+            <label>Datas Personalizadas:</label>
+            <div class="date-group">
+              <div>
+                <label for="startDate" style="font-weight: normal; font-size: 0.85rem;">Data Inicial:</label>
+                <input type="date" id="startDate">
+              </div>
+              <div>
+                <label for="endDate" style="font-weight: normal; font-size: 0.85rem;">Data Final:</label>
+                <input type="date" id="endDate">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" id="transactionTypeGroup">
+            <label for="transactionType">Filtrar Transações:</label>
+            <select id="transactionType">
+              <option value="all">Todas as Transações</option>
+              <option value="income">Apenas Receitas</option>
+              <option value="expense">Apenas Despesas</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <p>ℹ️ O PDF será gerado com formatação profissional</p>
+          <p>📊 Inclui resumos, gráficos e análises detalhadas</p>
+          <p>💾 O arquivo ficará disponível para download imediato</p>
+        </div>
+
+        <button type="submit" id="generateBtn">
+          🚀 Gerar PDF
+        </button>
+      </form>
+
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Gerando PDF, aguarde...</p>
+      </div>
+
+      <div class="result" id="result"></div>
+
+      <a href="/" class="back-link">⬅️ Voltar para Dashboard</a>
+    </div>
+  </div>
+
+  <script>
+    // Elementos
+    const form = document.getElementById('exportForm');
+    const exportTypeSelect = document.getElementById('exportType');
+    const reportTypeGroup = document.getElementById('reportTypeGroup');
+    const periodSelect = document.getElementById('period');
+    const customDatesGroup = document.getElementById('customDatesGroup');
+    const transactionTypeGroup = document.getElementById('transactionTypeGroup');
+    const periodGroup = document.getElementById('periodGroup');
+    const loading = document.getElementById('loading');
+    const result = document.getElementById('result');
+    const generateBtn = document.getElementById('generateBtn');
+
+    // Event Listeners
+    exportTypeSelect.addEventListener('change', handleExportTypeChange);
+    periodSelect.addEventListener('change', handlePeriodChange);
+    form.addEventListener('submit', handleSubmit);
+
+    // Inicializar
+    handleExportTypeChange();
+
+    /**
+     * Manipula mudança no tipo de exportação
+     */
+    function handleExportTypeChange() {
+      const isReport = exportTypeSelect.value === 'report';
+
+      if (isReport) {
+        reportTypeGroup.classList.remove('hidden');
+        transactionTypeGroup.classList.add('hidden');
+        periodGroup.classList.add('hidden');
+        customDatesGroup.classList.add('hidden');
+      } else {
+        reportTypeGroup.classList.add('hidden');
+        transactionTypeGroup.classList.remove('hidden');
+        periodGroup.classList.remove('hidden');
+        handlePeriodChange();
+      }
+    }
+
+    /**
+     * Manipula mudança no período
+     */
+    function handlePeriodChange() {
+      const isCustom = periodSelect.value === 'custom';
+      customDatesGroup.classList.toggle('hidden', !isCustom);
+
+      if (isCustom) {
+        // Definir valores padrão
+        const today = new Date();
+        const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+
+        document.getElementById('startDate').valueAsDate = firstDay;
+        document.getElementById('endDate').valueAsDate = today;
+      }
+    }
+
+    /**
+     * Manipula submissão do formulário
+     */
+    async function handleSubmit(e) {
+      e.preventDefault();
+
+      // Esconder resultado anterior
+      result.style.display = 'none';
+
+      // Coletar dados do formulário
+      const exportType = exportTypeSelect.value;
+      const data = {
+        userId: getUserId(), // Função para obter ID do usuário (implementar)
+        type: exportType
+      };
+
+      if (exportType === 'transactions') {
+        data.filters = {
+          period: periodSelect.value
+        };
+
+        if (periodSelect.value === 'custom') {
+          data.filters.startDate = document.getElementById('startDate').value;
+          data.filters.endDate = document.getElementById('endDate').value;
+        }
+
+        const transactionType = document.getElementById('transactionType').value;
+        if (transactionType !== 'all') {
+          data.filters.type = transactionType;
+        }
+      } else {
+        data.reportType = document.getElementById('reportType').value;
+      }
+
+      // Mostrar loading
+      loading.classList.add('show');
+      generateBtn.disabled = true;
+
+      try {
+        // Fazer requisição
+        const endpoint = exportType === 'transactions'
+          ? '/api/export/transactions'
+          : '/api/export/report';
+
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        const responseData = await response.json();
+
+        // Esconder loading
+        loading.classList.remove('show');
+        generateBtn.disabled = false;
+
+        if (responseData.success) {
+          showSuccess(responseData);
+        } else {
+          showError(responseData.error || 'Erro ao gerar PDF');
+        }
+      } catch (error) {
+        loading.classList.remove('show');
+        generateBtn.disabled = false;
+        showError('Erro de conexão com o servidor');
+      }
+    }
+
+    /**
+     * Mostra resultado de sucesso
+     */
+    function showSuccess(data) {
+      result.className = 'result success';
+      result.innerHTML = `
+        <div class="result-icon">✅</div>
+        <h3>PDF Gerado com Sucesso!</h3>
+
+        ${data.filename ? `
+          <div class="result-info">
+            <p><strong>Arquivo:</strong> <span>${data.filename}</span></p>
+            ${data.transactionCount !== undefined ? `<p><strong>Transações:</strong> <span>${data.transactionCount}</span></p>` : ''}
+            ${data.pages ? `<p><strong>Páginas:</strong> <span>${data.pages}</span></p>` : ''}
+            ${data.size ? `<p><strong>Tamanho:</strong> <span>${formatFileSize(data.size)}</span></p>` : ''}
+          </div>
+        ` : ''}
+
+        <a href="${data.downloadUrl}" download>
+          <button type="button" class="download-btn">
+            📥 Baixar PDF
+          </button>
+        </a>
+      `;
+    }
+
+    /**
+     * Mostra resultado de erro
+     */
+    function showError(message) {
+      result.className = 'result error';
+      result.innerHTML = `
+        <div class="result-icon">❌</div>
+        <h3>Erro ao Gerar PDF</h3>
+        <p style="text-align: center; margin-top: 10px;">${message}</p>
+      `;
+    }
+
+    /**
+     * Obtém ID do usuário
+     * TODO: Implementar autenticação real
+     */
+    function getUserId() {
+      // Por enquanto, usar um ID fixo ou do sessionStorage
+      return sessionStorage.getItem('userId') || 'default-user';
+    }
+
+    /**
+     * Formata tamanho de arquivo
+     */
+    function formatFileSize(bytes) {
+      const kb = bytes / 1024;
+      if (kb < 1024) {
+        return `${kb.toFixed(2)} KB`;
+      }
+      const mb = kb / 1024;
+      return `${mb.toFixed(2)} MB`;
+    }
+  </script>
+</body>
+</html>
