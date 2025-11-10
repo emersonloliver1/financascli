@@ -43,12 +43,12 @@ export class AuthScreen {
     );
 
     switch (choice) {
-      case 'login':
-        return await this.showLogin();
-      case 'register':
-        return await this.showRegister();
-      case 'exit':
-        return null;
+    case 'login':
+      return await this.showLogin();
+    case 'register':
+      return await this.showRegister();
+    case 'exit':
+      return null;
     }
   }
 
@@ -99,25 +99,19 @@ export class AuthScreen {
       }
 
       // Sucesso!
-      console.log('
-');
+      console.log('\n');
       console.log(successMessage(`Bem-vindo de volta, ${result.user.name}! ${icons.success}`));
-      console.log('
-');
+      console.log('\n');
 
       // Verificar se o usuário tem username cadastrado
       if (!result.user.username) {
         console.log(createBox(
-          `${icons.info} Você ainda não tem um username cadastrado!
-
-` +
-          `Com um username, você pode fazer login de forma mais rápida e fácil.
-` +
+          `${icons.info} Você ainda não tem um username cadastrado!\n\n` +
+          `Com um username, você pode fazer login de forma mais rápida e fácil.\n` +
           `Exemplo: ao invés de usar seu email, use apenas "joao123"`,
           { borderColor: 'yellow' }
         ));
-        console.log('
-');
+        console.log('\n');
 
         const wantsUsername = await Input.confirm('Deseja cadastrar um username agora?');
         
@@ -149,23 +143,20 @@ export class AuthScreen {
     // Exibir banner visual
     const banner = await createBanner();
     console.log(banner);
-    console.log('
-');
+    console.log('\n');
     
-    console.log(styles.title('
+    console.log(styles.title(`
 🚀 CRIAR NOVA CONTA
-'));
+`));
     console.log(createSeparator());
-    console.log('
-');
+    console.log('\n');
 
     try {
       // Capturar dados do usuário
       const name = await Input.text(`${icons.user} Nome completo:`);
       const email = await Input.email('Email');
       
-      console.log('
-');
+      console.log('\n');
       const wantsUsername = await Input.confirm('Deseja criar um username agora? (Você pode criar depois)');
       
       let username = null;
@@ -212,7 +203,7 @@ export class AuthScreen {
       console.log('\n');
       console.log(createBox(
         `${icons.star} Bem-vindo, ${result.user.name}!\n\n` +
-        `Sua conta foi criada e você já está logado.`,
+        'Sua conta foi criada e você já está logado.',
         { borderColor: 'green' }
       ));
       console.log('\n');
@@ -234,28 +225,19 @@ export class AuthScreen {
    */
   async setupUsername(user) {
     try {
-      console.log('
-');
-      console.log(styles.title('📝 CADASTRAR USERNAME
-'));
+      console.log('\n');
+      console.log(styles.title('📝 CADASTRAR USERNAME\n'));
       console.log(createSeparator());
-      console.log('
-');
+      console.log('\n');
       console.log(createBox(
-        `${icons.info} Regras para o username:
-
-` +
-        `• Apenas letras, números e underscore (_)
-` +
-        `• Mínimo de 3 caracteres
-` +
-        `• Máximo de 20 caracteres
-` +
+        `${icons.info} Regras para o username:\n\n` +
+        `• Apenas letras, números e underscore (_)\n` +
+        `• Mínimo de 3 caracteres\n` +
+        `• Máximo de 20 caracteres\n` +
         `• Deve ser único`,
         { borderColor: 'cyan' }
       ));
-      console.log('
-');
+      console.log('\n');
 
       let username;
       let isValid = false;
@@ -265,40 +247,32 @@ export class AuthScreen {
 
         // Validar formato
         if (username.length < 3) {
-          console.log('
-');
+          console.log('\n');
           console.log(errorMessage('Username deve ter pelo menos 3 caracteres'));
-          console.log('
-');
+          console.log('\n');
           continue;
         }
 
         if (username.length > 20) {
-          console.log('
-');
+          console.log('\n');
           console.log(errorMessage('Username deve ter no máximo 20 caracteres'));
-          console.log('
-');
+          console.log('\n');
           continue;
         }
 
         if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-          console.log('
-');
+          console.log('\n');
           console.log(errorMessage('Username deve conter apenas letras, números e underscore'));
-          console.log('
-');
+          console.log('\n');
           continue;
         }
 
         // Verificar se username já existe
         const existingUser = await this.userRepository.findByUsername(username);
         if (existingUser) {
-          console.log('
-');
+          console.log('\n');
           console.log(errorMessage('Username já está em uso. Tente outro.'));
-          console.log('
-');
+          console.log('\n');
           continue;
         }
 
@@ -316,19 +290,15 @@ export class AuthScreen {
 
       spinner.stop();
 
-      console.log('
-');
+      console.log('\n');
       console.log(successMessage(`Username "${username}" cadastrado com sucesso! ${icons.success}`));
-      console.log('
-');
+      console.log('\n');
 
       return updatedUser;
     } catch (error) {
-      console.log('
-');
+      console.log('\n');
       console.log(errorMessage(`Erro ao cadastrar username: ${error.message}`));
-      console.log('
-');
+      console.log('\n');
       return null;
     }
   }

@@ -253,21 +253,50 @@ O projeto segue os princípios da Clean Architecture:
 - Conexão SSL com o NeonDB
 - Senhas nunca são armazenadas em texto puro
 
-## 📝 Próximas Funcionalidades
+## ✅ Funcionalidades Implementadas
 
-- [ ] Adicionar receitas
-- [ ] Adicionar despesas
-- [ ] Visualizar transações
-- [ ] Relatórios financeiros
-- [ ] Filtros e busca
-- [ ] Exportação de dados
-- [ ] Dashboard com gráficos
-- [ ] Orçamentos por categoria
-- [ ] Metas financeiras
+- [x] Sistema de Transações (CRUD completo)
+- [x] Dashboard visual com gráficos ASCII
+- [x] Relatórios e Análises (6 tipos)
+- [x] Sistema de Orçamentos com alertas
+- [x] Metas Financeiras com tracking
+- [x] Exportação para PDF
+- [x] Interface Web (xterm.js)
+- [x] ESLint + Type Checking
+- [x] Build System
+
+## 🛠️ Desenvolvimento
+
+Para desenvolvedores que desejam contribuir ou entender a arquitetura do projeto:
+
+**Consulte o [Guia de Desenvolvimento](./DEVELOPMENT.md)** para:
+- Arquitetura Clean Architecture detalhada
+- Padrões de código e convenções
+- Guia de testes
+- Processo de build
+- Como contribuir
+
+### Scripts de Qualidade
+
+```bash
+# Verificar código com ESLint
+npm run lint
+
+# Corrigir problemas automaticamente
+npm run lint:fix
+
+# Verificar sintaxe de todos os arquivos
+npm run check
+
+# Build completo (validação completa)
+npm run build
+```
 
 ## 🤝 Contribuindo
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
+
+Antes de contribuir, leia o [Guia de Desenvolvimento](./DEVELOPMENT.md).
 
 ## 📄 Licença
 

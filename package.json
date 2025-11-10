@@ -12,7 +12,7 @@
     "setup": "node scripts/setup.js",
     "lint": "eslint src/**/*.js server-web.js",
     "lint:fix": "eslint src/**/*.js server-web.js --fix",
-    "check": "node --check src/**/*.js server-web.js",
+    "check": "find src -name '*.js' -type f -exec node --check {} \\; && node --check server-web.js",
     "test": "node --test test/**/*.test.js",
     "build": "node scripts/build.js"
   },
