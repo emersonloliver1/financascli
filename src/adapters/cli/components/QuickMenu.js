@@ -90,26 +90,52 @@ export class QuickMenu {
 
         term.bold.white(`  ${numero}. `);
 
-        // Mapeamento de cores para Terminal-Kit
-        const colorMap = {
-          'red': term.red,
-          'green': term.green,
-          'yellow': term.yellow,
-          'blue': term.blue,
-          'cyan': term.cyan,
-          'magenta': term.magenta,
-          'white': term.white,
-          'gray': term.gray,
-          'brightRed': term.brightRed,
-          'brightGreen': term.brightGreen,
-          'brightYellow': term.brightYellow,
-          'brightBlue': term.brightBlue,
-          'brightCyan': term.brightCyan,
-          'brightMagenta': term.brightMagenta
-        };
-
-        const colorFn = colorMap[color] || term.yellow;
-        colorFn.bind(term)(`${icon} ${opcao.name}\n`);
+        // Aplicar cor baseado no valor
+        switch (color) {
+        case 'red':
+          term.red(`${icon} ${opcao.name}\n`);
+          break;
+        case 'green':
+          term.green(`${icon} ${opcao.name}\n`);
+          break;
+        case 'blue':
+          term.blue(`${icon} ${opcao.name}\n`);
+          break;
+        case 'cyan':
+          term.cyan(`${icon} ${opcao.name}\n`);
+          break;
+        case 'magenta':
+          term.magenta(`${icon} ${opcao.name}\n`);
+          break;
+        case 'white':
+          term.white(`${icon} ${opcao.name}\n`);
+          break;
+        case 'gray':
+          term.gray(`${icon} ${opcao.name}\n`);
+          break;
+        case 'brightRed':
+          term.brightRed(`${icon} ${opcao.name}\n`);
+          break;
+        case 'brightGreen':
+          term.brightGreen(`${icon} ${opcao.name}\n`);
+          break;
+        case 'brightYellow':
+          term.brightYellow(`${icon} ${opcao.name}\n`);
+          break;
+        case 'brightBlue':
+          term.brightBlue(`${icon} ${opcao.name}\n`);
+          break;
+        case 'brightCyan':
+          term.brightCyan(`${icon} ${opcao.name}\n`);
+          break;
+        case 'brightMagenta':
+          term.brightMagenta(`${icon} ${opcao.name}\n`);
+          break;
+        case 'yellow':
+        default:
+          term.yellow(`${icon} ${opcao.name}\n`);
+          break;
+        }
       });
 
       term('\n');
