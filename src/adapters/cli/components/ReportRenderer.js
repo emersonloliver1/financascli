@@ -55,7 +55,7 @@ export class ReportRenderer {
       `Total Receitas:     ${chalk.green(this._formatCurrency(summary.totalIncome))}  💰`,
       `Total Despesas:     ${chalk.red(this._formatCurrency(summary.totalExpense))}  💸`,
       `Saldo do Mês:       ${summary.balance >= 0 ? chalk.green(this._formatCurrency(summary.balance)) : chalk.red(this._formatCurrency(summary.balance))}  ${summary.balance >= 0 ? '✅' : '⚠️'}`,
-      `Transações:         ${summary.transactionCount} registros`,
+      `Transações:         ${summary.transactionCount} registros`
     ];
 
     // Adicionar média diária se houver dados

@@ -139,9 +139,9 @@ export class DashboardData {
   getTrendSymbol() {
     const trend = this.getExpenseTrend();
     switch (trend) {
-      case 'increasing': return '↑';
-      case 'decreasing': return '↓';
-      default: return '→';
+    case 'increasing': return '↑';
+    case 'decreasing': return '↓';
+    default: return '→';
     }
   }
 
@@ -154,12 +154,12 @@ export class DashboardData {
     const variation = Math.abs(this.calculateMonthVariation('expense'));
 
     switch (trend) {
-      case 'increasing':
-        return `AUMENTANDO (${variation.toFixed(1)}%)`;
-      case 'decreasing':
-        return `DIMINUINDO (${variation.toFixed(1)}%)`;
-      default:
-        return 'ESTÁVEL (variação < 5%)';
+    case 'increasing':
+      return `AUMENTANDO (${variation.toFixed(1)}%)`;
+    case 'decreasing':
+      return `DIMINUINDO (${variation.toFixed(1)}%)`;
+    default:
+      return 'ESTÁVEL (variação < 5%)';
     }
   }
 

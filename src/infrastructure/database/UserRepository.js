@@ -28,6 +28,7 @@ export class UserRepository extends IUserRepository {
       id: row.id,
       email: row.email,
       name: row.name,
+      username: row.username,
       createdAt: row.created_at,
       updatedAt: row.updated_at
     });
@@ -51,6 +52,79 @@ export class UserRepository extends IUserRepository {
       id: row.id,
       email: row.email,
       name: row.name,
+      username: row.username,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at
+    });
+  }
+
+  /**
+   * Busca um usuário por username
+   */
+  async findByUsername(username) {
+    const result = await this.database.query(
+      'SELECT * FROM users WHERE username = $1',
+      [username]
+    );
+
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    const row = result.rows[0];
+    return new User({
+      id: row.id,
+      email: row.email,
+      name: row.name,
+      username: row.username,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at
+    });
+  }
+
+  /**
+   * Busca um usuário por username OU email
+   */
+  async findByUsernameOrEmail(usernameOrEmail) {
+    const result = await this.database.query(
+      'SELECT * FROM users WHERE username = $1 OR email = $1',
+      [usernameOrEmail]
+    );
+
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    const row = result.rows[0];
+    return new User({
+      id: row.id,
+      email: row.email,
+      name: row.name,
+      username: row.username,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at
+    });
+  }
+
+  /**
+   * Atualiza o username de um usuário
+   */
+  async updateUsername(userId, username) {
+    const result = await this.database.query(
+      'UPDATE users SET username = $1, updated_at = $2 WHERE id = $3 RETURNING *',
+      [username, new Date(), userId]
+    );
+
+    if (result.rows.length === 0) {
+      throw new Error('Usuário não encontrado');
+    }
+
+    const row = result.rows[0];
+    return new User({
+      id: row.id,
+      email: row.email,
+      name: row.name,
+      username: row.username,
       createdAt: row.created_at,
       updatedAt: row.updated_at
     });
@@ -61,10 +135,10 @@ export class UserRepository extends IUserRepository {
    */
   async create(user) {
     const result = await this.database.query(
-      `INSERT INTO users (id, email, name, created_at, updated_at)
-       VALUES ($1, $2, $3, $4, $5)
+      `INSERT INTO users (id, email, name, username, created_at, updated_at)
+       VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING *`,
-      [user.id, user.email, user.name, user.createdAt, user.updatedAt]
+      [user.id, user.email, user.name, user.username || null, user.createdAt, user.updatedAt]
     );
 
     const row = result.rows[0];
@@ -72,6 +146,7 @@ export class UserRepository extends IUserRepository {
       id: row.id,
       email: row.email,
       name: row.name,
+      username: row.username,
       createdAt: row.created_at,
       updatedAt: row.updated_at
     });
@@ -85,10 +160,10 @@ export class UserRepository extends IUserRepository {
 
     const result = await this.database.query(
       `UPDATE users
-       SET email = $1, name = $2, updated_at = $3
-       WHERE id = $4
+       SET email = $1, name = $2, username = $3, updated_at = $4
+       WHERE id = $5
        RETURNING *`,
-      [user.email, user.name, user.updatedAt, user.id]
+      [user.email, user.name, user.username || null, user.updatedAt, user.id]
     );
 
     if (result.rows.length === 0) {
@@ -100,6 +175,7 @@ export class UserRepository extends IUserRepository {
       id: row.id,
       email: row.email,
       name: row.name,
+      username: row.username,
       createdAt: row.created_at,
       updatedAt: row.updated_at
     });

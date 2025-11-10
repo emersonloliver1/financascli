@@ -230,11 +230,11 @@ export class GoalRepository {
     }
 
     // Adicionar updated_at
-    updates.push(`updated_at = CURRENT_TIMESTAMP`);
+    updates.push('updated_at = CURRENT_TIMESTAMP');
 
     // Se status mudou para completed, adicionar completed_at
     if (data.status === 'completed') {
-      updates.push(`completed_at = COALESCE(completed_at, CURRENT_TIMESTAMP)`);
+      updates.push('completed_at = COALESCE(completed_at, CURRENT_TIMESTAMP)');
     }
 
     values.push(id);

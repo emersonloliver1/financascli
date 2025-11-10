@@ -17,7 +17,7 @@ export class NeonAuthService extends IAuthService {
   /**
    * Registra um novo usuário
    */
-  async register({ email, name, password }) {
+  async register({ email, name, username, password }) {
     try {
       // Verificar se usuário já existe
       const existingUser = await this.userRepository.findByEmail(email);
@@ -36,7 +36,8 @@ export class NeonAuthService extends IAuthService {
       const user = new User({
         id: userId,
         email,
-        name
+        name,
+        username
       });
 
       // Salvar usuário no banco
@@ -58,12 +59,12 @@ export class NeonAuthService extends IAuthService {
   }
 
   /**
-   * Faz login do usuário
+   * Faz login do usuário com username ou email
    */
-  async login({ email, password }) {
+  async login({ usernameOrEmail, password }) {
     try {
-      // Buscar usuário por email
-      const user = await this.userRepository.findByEmail(email);
+      // Buscar usuário por username ou email
+      const user = await this.userRepository.findByUsernameOrEmail(usernameOrEmail);
       if (!user) {
         return { success: false, error: 'Email ou senha inválidos' };
       }

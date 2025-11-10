@@ -89,47 +89,48 @@ export class GenerateTopTransactionsReportUseCase {
     let start, end, label;
 
     switch (period) {
-      case 'today':
-        start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
-        end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
-        label = 'Hoje';
-        break;
+    case 'today':
+      start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+      end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+      label = 'Hoje';
+      break;
 
-      case 'week':
-        const dayOfWeek = now.getDay();
-        const diff = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Segunda-feira
-        start = new Date(now);
-        start.setDate(now.getDate() - diff);
-        start.setHours(0, 0, 0, 0);
-        end = new Date(start);
-        end.setDate(start.getDate() + 6);
-        end.setHours(23, 59, 59, 999);
-        label = 'Esta Semana';
-        break;
+    case 'week': {
+      const dayOfWeek = now.getDay();
+      const diff = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Segunda-feira
+      start = new Date(now);
+      start.setDate(now.getDate() - diff);
+      start.setHours(0, 0, 0, 0);
+      end = new Date(start);
+      end.setDate(start.getDate() + 6);
+      end.setHours(23, 59, 59, 999);
+      label = 'Esta Semana';
+      break;
+    }
 
-      case 'month':
-        start = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0);
-        end = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
-        label = `${this._getMonthName(now.getMonth() + 1)} ${now.getFullYear()}`;
-        break;
+    case 'month':
+      start = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0);
+      end = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+      label = `${this._getMonthName(now.getMonth() + 1)} ${now.getFullYear()}`;
+      break;
 
-      case 'year':
-        start = new Date(now.getFullYear(), 0, 1, 0, 0, 0);
-        end = new Date(now.getFullYear(), 11, 31, 23, 59, 59);
-        label = `${now.getFullYear()}`;
-        break;
+    case 'year':
+      start = new Date(now.getFullYear(), 0, 1, 0, 0, 0);
+      end = new Date(now.getFullYear(), 11, 31, 23, 59, 59);
+      label = `${now.getFullYear()}`;
+      break;
 
-      case 'custom':
-        if (!customStart || !customEnd) {
-          throw new Error('startDate e endDate são obrigatórios para period=custom');
-        }
-        start = customStart instanceof Date ? customStart : new Date(customStart);
-        end = customEnd instanceof Date ? customEnd : new Date(customEnd);
-        label = `${this._formatDate(start)} a ${this._formatDate(end)}`;
-        break;
+    case 'custom':
+      if (!customStart || !customEnd) {
+        throw new Error('startDate e endDate são obrigatórios para period=custom');
+      }
+      start = customStart instanceof Date ? customStart : new Date(customStart);
+      end = customEnd instanceof Date ? customEnd : new Date(customEnd);
+      label = `${this._formatDate(start)} a ${this._formatDate(end)}`;
+      break;
 
-      default:
-        throw new Error('Período inválido');
+    default:
+      throw new Error('Período inválido');
     }
 
     return { start, end, label };

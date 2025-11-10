@@ -9,7 +9,12 @@
     "start:web": "node server-web.js",
     "dev": "node --watch src/index.js",
     "dev:web": "node --watch server-web.js",
-    "setup": "node scripts/setup.js"
+    "setup": "node scripts/setup.js",
+    "lint": "eslint src/**/*.js server-web.js",
+    "lint:fix": "eslint src/**/*.js server-web.js --fix",
+    "check": "node --check src/**/*.js server-web.js",
+    "test": "node --test test/**/*.test.js",
+    "build": "node scripts/build.js"
   },
   "keywords": [
     "financas",
@@ -35,6 +40,10 @@
     "terminal-kit": "^3.1.2"
   },
   "devDependencies": {
-    "@types/node": "^22.10.1"
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^22.10.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-node": "^11.1.0",
+    "globals": "^16.5.0"
   }
 }

@@ -59,29 +59,29 @@ export class GoalScreen {
     );
 
     switch (choice) {
-      case 'list':
-        await this.showList();
-        return await this.show();
-      case 'create':
-        await this.showCreate();
-        return await this.show();
-      case 'contribute':
-        await this.showAddContribution();
-        return await this.show();
-      case 'edit':
-        await this.showEdit();
-        return await this.show();
-      case 'manage':
-        await this.showManage();
-        return await this.show();
-      case 'stats':
-        await this.showStats();
-        return await this.show();
-      case 'history':
-        await this.showHistory();
-        return await this.show();
-      case 'back':
-        return 'back';
+    case 'list':
+      await this.showList();
+      return await this.show();
+    case 'create':
+      await this.showCreate();
+      return await this.show();
+    case 'contribute':
+      await this.showAddContribution();
+      return await this.show();
+    case 'edit':
+      await this.showEdit();
+      return await this.show();
+    case 'manage':
+      await this.showManage();
+      return await this.show();
+    case 'stats':
+      await this.showStats();
+      return await this.show();
+    case 'history':
+      await this.showHistory();
+      return await this.show();
+    case 'back':
+      return 'back';
     }
   }
 
@@ -497,20 +497,20 @@ export class GoalScreen {
       const action = await QuickMenu.selectWithIcons('Escolha uma ação:', actions);
 
       switch (action) {
-        case 'complete':
-          await this.completeGoal(goalId, 'completed');
-          break;
-        case 'cancel':
-          await this.completeGoal(goalId, 'cancelled');
-          break;
-        case 'reactivate':
-          await this.completeGoal(goalId, 'active');
-          break;
-        case 'delete':
-          await this.deleteGoal(goalId);
-          break;
-        case 'back':
-          return;
+      case 'complete':
+        await this.completeGoal(goalId, 'completed');
+        break;
+      case 'cancel':
+        await this.completeGoal(goalId, 'cancelled');
+        break;
+      case 'reactivate':
+        await this.completeGoal(goalId, 'active');
+        break;
+      case 'delete':
+        await this.deleteGoal(goalId);
+        break;
+      case 'back':
+        return;
       }
     } catch (error) {
       console.error(errorMessage(error.message));
@@ -536,7 +536,7 @@ export class GoalScreen {
       return;
     }
 
-    const spinner = ora(`Atualizando status...`).start();
+    const spinner = ora('Atualizando status...').start();
 
     try {
       await this.completeGoalUseCase.execute(goalId, newStatus, this.user.id);

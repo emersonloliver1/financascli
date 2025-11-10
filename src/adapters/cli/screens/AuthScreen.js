@@ -15,9 +15,10 @@ import { colors, icons, styles } from '../utils/colors.js';
  * Tela de autenticação (Login/Registro)
  */
 export class AuthScreen {
-  constructor(registerUseCase, loginUseCase) {
+  constructor(registerUseCase, loginUseCase, userRepository) {
     this.registerUseCase = registerUseCase;
     this.loginUseCase = loginUseCase;
+    this.userRepository = userRepository;
   }
 
   /**
@@ -56,13 +57,21 @@ export class AuthScreen {
    */
   async showLogin() {
     clearScreen();
-    console.log(styles.title('\n🔐 LOGIN\n'));
+    
+    // Exibir banner visual
+    const banner = await createBanner();
+    console.log(banner);
+    console.log('');
+
+    console.log(styles.title(`
+🔐 LOGIN
+`));
     console.log(createSeparator());
-    console.log('\n');
+    console.log('');
 
     try {
       // Capturar credenciais
-      const email = await Input.email('Email');
+      const usernameOrEmail = await Input.text('Username ou Email:');
       const password = await Input.password('Senha');
 
       // Spinner de loading
@@ -72,7 +81,7 @@ export class AuthScreen {
       }).start();
 
       // Executar login
-      const result = await this.loginUseCase.execute({ email, password });
+      const result = await this.loginUseCase.execute({ usernameOrEmail, password });
 
       spinner.stop();
 
@@ -90,12 +99,37 @@ export class AuthScreen {
       }
 
       // Sucesso!
-      console.log('\n');
+      console.log('
+');
       console.log(successMessage(`Bem-vindo de volta, ${result.user.name}! ${icons.success}`));
-      console.log('\n');
+      console.log('
+');
+
+      // Verificar se o usuário tem username cadastrado
+      if (!result.user.username) {
+        console.log(createBox(
+          `${icons.info} Você ainda não tem um username cadastrado!
+
+` +
+          `Com um username, você pode fazer login de forma mais rápida e fácil.
+` +
+          `Exemplo: ao invés de usar seu email, use apenas "joao123"`,
+          { borderColor: 'yellow' }
+        ));
+        console.log('
+');
+
+        const wantsUsername = await Input.confirm('Deseja cadastrar um username agora?');
+        
+        if (wantsUsername) {
+          const newUser = await this.setupUsername(result.user);
+          if (newUser) {
+            result.user = newUser;
+          }
+        }
+      }
 
       await Input.pressKey();
-
       return result.user;
     } catch (error) {
       console.log('\n');
@@ -111,14 +145,34 @@ export class AuthScreen {
    */
   async showRegister() {
     clearScreen();
-    console.log(styles.title('\n🚀 CRIAR NOVA CONTA\n'));
+    
+    // Exibir banner visual
+    const banner = await createBanner();
+    console.log(banner);
+    console.log('
+');
+    
+    console.log(styles.title('
+🚀 CRIAR NOVA CONTA
+'));
     console.log(createSeparator());
-    console.log('\n');
+    console.log('
+');
 
     try {
       // Capturar dados do usuário
       const name = await Input.text(`${icons.user} Nome completo:`);
       const email = await Input.email('Email');
+      
+      console.log('
+');
+      const wantsUsername = await Input.confirm('Deseja criar um username agora? (Você pode criar depois)');
+      
+      let username = null;
+      if (wantsUsername) {
+        username = await Input.text('Username (letras, números e _ apenas):');
+      }
+
       const password = await Input.password('Senha (mínimo 6 caracteres)');
       const confirmPassword = await Input.confirmPassword(password);
 
@@ -132,6 +186,7 @@ export class AuthScreen {
       const result = await this.registerUseCase.execute({
         name,
         email,
+        username,
         password,
         confirmPassword
       });
@@ -171,6 +226,110 @@ export class AuthScreen {
       console.log('\n');
       await Input.pressKey();
       return await this.show();
+    }
+  }
+
+  /**
+   * Configura username para usuário existente
+   */
+  async setupUsername(user) {
+    try {
+      console.log('
+');
+      console.log(styles.title('📝 CADASTRAR USERNAME
+'));
+      console.log(createSeparator());
+      console.log('
+');
+      console.log(createBox(
+        `${icons.info} Regras para o username:
+
+` +
+        `• Apenas letras, números e underscore (_)
+` +
+        `• Mínimo de 3 caracteres
+` +
+        `• Máximo de 20 caracteres
+` +
+        `• Deve ser único`,
+        { borderColor: 'cyan' }
+      ));
+      console.log('
+');
+
+      let username;
+      let isValid = false;
+
+      while (!isValid) {
+        username = await Input.text('Digite seu username:');
+
+        // Validar formato
+        if (username.length < 3) {
+          console.log('
+');
+          console.log(errorMessage('Username deve ter pelo menos 3 caracteres'));
+          console.log('
+');
+          continue;
+        }
+
+        if (username.length > 20) {
+          console.log('
+');
+          console.log(errorMessage('Username deve ter no máximo 20 caracteres'));
+          console.log('
+');
+          continue;
+        }
+
+        if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+          console.log('
+');
+          console.log(errorMessage('Username deve conter apenas letras, números e underscore'));
+          console.log('
+');
+          continue;
+        }
+
+        // Verificar se username já existe
+        const existingUser = await this.userRepository.findByUsername(username);
+        if (existingUser) {
+          console.log('
+');
+          console.log(errorMessage('Username já está em uso. Tente outro.'));
+          console.log('
+');
+          continue;
+        }
+
+        isValid = true;
+      }
+
+      // Spinner de loading
+      const spinner = ora({
+        text: 'Cadastrando username...',
+        color: 'cyan'
+      }).start();
+
+      // Atualizar username no banco
+      const updatedUser = await this.userRepository.updateUsername(user.id, username);
+
+      spinner.stop();
+
+      console.log('
+');
+      console.log(successMessage(`Username "${username}" cadastrado com sucesso! ${icons.success}`));
+      console.log('
+');
+
+      return updatedUser;
+    } catch (error) {
+      console.log('
+');
+      console.log(errorMessage(`Erro ao cadastrar username: ${error.message}`));
+      console.log('
+');
+      return null;
     }
   }
 }

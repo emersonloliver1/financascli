@@ -161,39 +161,39 @@ export class ExportTransactionsToPDFUseCase {
     let startDate, endDate;
 
     switch (period) {
-      case 'current-month':
-        startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-        endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-        break;
+    case 'current-month':
+      startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+      endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+      break;
 
-      case 'last-month':
-        startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-        endDate = new Date(now.getFullYear(), now.getMonth(), 0);
-        break;
+    case 'last-month':
+      startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+      endDate = new Date(now.getFullYear(), now.getMonth(), 0);
+      break;
 
-      case 'last-3-months':
-        startDate = new Date(now.getFullYear(), now.getMonth() - 3, 1);
-        endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-        break;
+    case 'last-3-months':
+      startDate = new Date(now.getFullYear(), now.getMonth() - 3, 1);
+      endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+      break;
 
-      case 'last-6-months':
-        startDate = new Date(now.getFullYear(), now.getMonth() - 6, 1);
-        endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-        break;
+    case 'last-6-months':
+      startDate = new Date(now.getFullYear(), now.getMonth() - 6, 1);
+      endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+      break;
 
-      case 'current-year':
-        startDate = new Date(now.getFullYear(), 0, 1);
-        endDate = new Date(now.getFullYear(), 11, 31);
-        break;
+    case 'current-year':
+      startDate = new Date(now.getFullYear(), 0, 1);
+      endDate = new Date(now.getFullYear(), 11, 31);
+      break;
 
-      case 'last-year':
-        startDate = new Date(now.getFullYear() - 1, 0, 1);
-        endDate = new Date(now.getFullYear() - 1, 11, 31);
-        break;
+    case 'last-year':
+      startDate = new Date(now.getFullYear() - 1, 0, 1);
+      endDate = new Date(now.getFullYear() - 1, 11, 31);
+      break;
 
-      default:
-        startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-        endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    default:
+      startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+      endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
     }
 
     return { startDate, endDate };

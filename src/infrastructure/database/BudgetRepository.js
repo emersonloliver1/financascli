@@ -138,7 +138,7 @@ export class BudgetRepository extends IBudgetRepository {
     }
 
     // Ordenação
-    query += ` ORDER BY b.start_date DESC, b.created_at DESC`;
+    query += ' ORDER BY b.start_date DESC, b.created_at DESC';
 
     const result = await this.database.query(query, params);
 

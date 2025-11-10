@@ -102,26 +102,26 @@ export class ExportReportToPDFUseCase {
     }
 
     switch (reportType) {
-      case 'monthly':
-        return await this.generateMonthlyReport(userId, options);
+    case 'monthly':
+      return await this.generateMonthlyReport(userId, options);
 
-      case 'category':
-        return await this.generateCategoryReport(userId, options);
+    case 'category':
+      return await this.generateCategoryReport(userId, options);
 
-      case 'evolution':
-        return await this.generateEvolutionReport(userId, options);
+    case 'evolution':
+      return await this.generateEvolutionReport(userId, options);
 
-      case 'top':
-        return await this.generateTopReport(userId, options);
+    case 'top':
+      return await this.generateTopReport(userId, options);
 
-      case 'comparative':
-        return await this.generateComparativeReport(userId, options);
+    case 'comparative':
+      return await this.generateComparativeReport(userId, options);
 
-      case 'patterns':
-        return await this.generatePatternsReport(userId, options);
+    case 'patterns':
+      return await this.generatePatternsReport(userId, options);
 
-      default:
-        throw new Error(`Tipo de relatório não implementado: ${reportType}`);
+    default:
+      throw new Error(`Tipo de relatório não implementado: ${reportType}`);
     }
   }
 

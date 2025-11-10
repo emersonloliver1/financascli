@@ -60,29 +60,29 @@ export class TransactionScreen {
     );
 
     switch (choice) {
-      case 'income':
-        await this.addTransactionForm.show('income');
-        return await this.show();
+    case 'income':
+      await this.addTransactionForm.show('income');
+      return await this.show();
 
-      case 'expense':
-        await this.addTransactionForm.show('expense');
-        return await this.show();
+    case 'expense':
+      await this.addTransactionForm.show('expense');
+      return await this.show();
 
-      case 'list':
-        await this.transactionList.show({ page: 1, limit: 10 });
-        return await this.show();
+    case 'list':
+      await this.transactionList.show({ page: 1, limit: 10 });
+      return await this.show();
 
-      case 'filters':
-        await this._showFilters();
-        return await this.show();
+    case 'filters':
+      await this._showFilters();
+      return await this.show();
 
-      case 'summary':
-        await this._showSummary();
-        return await this.show();
+    case 'summary':
+      await this._showSummary();
+      return await this.show();
 
-      case 'back':
-      default:
-        return;
+    case 'back':
+    default:
+      return;
     }
   }
 

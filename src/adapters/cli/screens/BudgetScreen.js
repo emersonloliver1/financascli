@@ -61,26 +61,26 @@ export class BudgetScreen {
     );
 
     switch (choice) {
-      case 'list':
-        await this.showList();
-        return await this.show();
-      case 'create':
-        await this.showCreate();
-        return await this.show();
-      case 'edit':
-        await this.showEdit();
-        return await this.show();
-      case 'delete':
-        await this.showDelete();
-        return await this.show();
-      case 'alerts':
-        await this.showAlerts();
-        return await this.show();
-      case 'suggest':
-        await this.showSuggestions();
-        return await this.show();
-      case 'back':
-        return 'back';
+    case 'list':
+      await this.showList();
+      return await this.show();
+    case 'create':
+      await this.showCreate();
+      return await this.show();
+    case 'edit':
+      await this.showEdit();
+      return await this.show();
+    case 'delete':
+      await this.showDelete();
+      return await this.show();
+    case 'alerts':
+      await this.showAlerts();
+      return await this.show();
+    case 'suggest':
+      await this.showSuggestions();
+      return await this.show();
+    case 'back':
+      return 'back';
     }
   }
 

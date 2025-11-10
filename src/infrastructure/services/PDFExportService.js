@@ -100,18 +100,18 @@ export class PDFExportService {
         // Tabela de transações
         if (data.transactions && data.transactions.length > 0) {
           doc.fontSize(this.fonts.heading)
-             .fillColor(this.colors.primary)
-             .text('Lista de Transações', { underline: true });
+            .fillColor(this.colors.primary)
+            .text('Lista de Transações', { underline: true });
 
           doc.moveDown(0.5);
 
           this.addTransactionsTable(doc, data.transactions);
         } else {
           doc.fontSize(this.fonts.body)
-             .fillColor(this.colors.secondary)
-             .text('Nenhuma transação encontrada para o período selecionado.', {
-               align: 'center'
-             });
+            .fillColor(this.colors.secondary)
+            .text('Nenhuma transação encontrada para o período selecionado.', {
+              align: 'center'
+            });
         }
 
         // Footer em todas as páginas
@@ -170,26 +170,26 @@ export class PDFExportService {
 
         // Conteúdo específico do relatório
         switch (report.type) {
-          case 'monthly':
-            this.addMonthlyReportContent(doc, report);
-            break;
-          case 'category':
-            this.addCategoryReportContent(doc, report);
-            break;
-          case 'evolution':
-            this.addEvolutionReportContent(doc, report);
-            break;
-          case 'top':
-            this.addTopReportContent(doc, report);
-            break;
-          case 'comparative':
-            this.addComparativeReportContent(doc, report);
-            break;
-          case 'patterns':
-            this.addPatternsReportContent(doc, report);
-            break;
-          default:
-            throw new Error(`Tipo de relatório não suportado: ${report.type}`);
+        case 'monthly':
+          this.addMonthlyReportContent(doc, report);
+          break;
+        case 'category':
+          this.addCategoryReportContent(doc, report);
+          break;
+        case 'evolution':
+          this.addEvolutionReportContent(doc, report);
+          break;
+        case 'top':
+          this.addTopReportContent(doc, report);
+          break;
+        case 'comparative':
+          this.addComparativeReportContent(doc, report);
+          break;
+        case 'patterns':
+          this.addPatternsReportContent(doc, report);
+          break;
+        default:
+          throw new Error(`Tipo de relatório não suportado: ${report.type}`);
         }
 
         // Footer
@@ -224,22 +224,22 @@ export class PDFExportService {
   addHeader(doc, title) {
     // Linha superior decorativa
     doc.rect(50, 50, doc.page.width - 100, 3)
-       .fill(this.colors.info);
+      .fill(this.colors.info);
 
     doc.moveDown(0.5);
 
     // Título principal
     doc.fontSize(this.fonts.title)
-       .fillColor(this.colors.primary)
-       .text(title, { align: 'center' });
+      .fillColor(this.colors.primary)
+      .text(title, { align: 'center' });
 
     // Data de geração
     doc.fontSize(this.fonts.small)
-       .fillColor(this.colors.secondary)
-       .text(
-         `Gerado em ${this.formatDate(new Date())} às ${this.formatTime(new Date())}`,
-         { align: 'center' }
-       );
+      .fillColor(this.colors.secondary)
+      .text(
+        `Gerado em ${this.formatDate(new Date())} às ${this.formatTime(new Date())}`,
+        { align: 'center' }
+      );
 
     doc.moveDown(1.5);
   }
@@ -252,8 +252,8 @@ export class PDFExportService {
    */
   addPeriodInfo(doc, period) {
     doc.fontSize(this.fonts.body)
-       .fillColor(this.colors.dark)
-       .text(`Período: ${period.start} a ${period.end}`, { align: 'center' });
+      .fillColor(this.colors.dark)
+      .text(`Período: ${period.start} a ${period.end}`, { align: 'center' });
 
     doc.moveDown(1);
   }
@@ -270,14 +270,14 @@ export class PDFExportService {
 
     // Caixa de fundo
     doc.rect(50, boxY, doc.page.width - 100, boxHeight)
-       .fill(this.colors.light);
+      .fill(this.colors.light);
 
     doc.y = boxY + 15;
 
     // Título do resumo
     doc.fontSize(this.fonts.heading)
-       .fillColor(this.colors.primary)
-       .text('Resumo Financeiro', 50, doc.y, { align: 'center' });
+      .fillColor(this.colors.primary)
+      .text('Resumo Financeiro', 50, doc.y, { align: 'center' });
 
     doc.moveDown(1);
 
@@ -287,21 +287,21 @@ export class PDFExportService {
 
     // Receitas (esquerda)
     doc.fontSize(this.fonts.body)
-       .fillColor(this.colors.secondary)
-       .text('Receitas:', leftX, currentY);
+      .fillColor(this.colors.secondary)
+      .text('Receitas:', leftX, currentY);
 
     doc.fontSize(this.fonts.subtitle)
-       .fillColor(this.colors.success)
-       .text(`R$ ${this.formatMoney(summary.totalIncome || 0)}`, leftX, currentY + 15);
+      .fillColor(this.colors.success)
+      .text(`R$ ${this.formatMoney(summary.totalIncome || 0)}`, leftX, currentY + 15);
 
     // Despesas (direita)
     doc.fontSize(this.fonts.body)
-       .fillColor(this.colors.secondary)
-       .text('Despesas:', rightX, currentY);
+      .fillColor(this.colors.secondary)
+      .text('Despesas:', rightX, currentY);
 
     doc.fontSize(this.fonts.subtitle)
-       .fillColor(this.colors.danger)
-       .text(`R$ ${this.formatMoney(summary.totalExpense || 0)}`, rightX, currentY + 15);
+      .fillColor(this.colors.danger)
+      .text(`R$ ${this.formatMoney(summary.totalExpense || 0)}`, rightX, currentY + 15);
 
     doc.moveDown(3);
 
@@ -313,19 +313,19 @@ export class PDFExportService {
     const balanceLabel = balance >= 0 ? 'Saldo Positivo' : 'Saldo Negativo';
 
     doc.fontSize(this.fonts.body)
-       .fillColor(this.colors.secondary)
-       .text(balanceLabel, { align: 'center' });
+      .fillColor(this.colors.secondary)
+      .text(balanceLabel, { align: 'center' });
 
     doc.fontSize(this.fonts.subtitle)
-       .fillColor(balanceColor)
-       .text(`R$ ${this.formatMoney(Math.abs(balance))}`, { align: 'center' });
+      .fillColor(balanceColor)
+      .text(`R$ ${this.formatMoney(Math.abs(balance))}`, { align: 'center' });
 
     // Total de transações (se disponível)
     if (summary.count !== undefined) {
       doc.moveDown(0.5);
       doc.fontSize(this.fonts.small)
-         .fillColor(this.colors.secondary)
-         .text(`Total de Transações: ${summary.count}`, { align: 'center' });
+        .fillColor(this.colors.secondary)
+        .text(`Total de Transações: ${summary.count}`, { align: 'center' });
     }
 
     doc.y = boxY + boxHeight + 10;
@@ -353,7 +353,7 @@ export class PDFExportService {
     // Desenhar cabeçalhos
     let currentY = tableTop;
     doc.fontSize(this.fonts.body)
-       .fillColor(this.colors.primary);
+      .fillColor(this.colors.primary);
 
     headers.forEach(header => {
       doc.text(
@@ -367,8 +367,8 @@ export class PDFExportService {
     // Linha abaixo do cabeçalho
     currentY += 15;
     doc.moveTo(50, currentY)
-       .lineTo(doc.page.width - 50, currentY)
-       .stroke(this.colors.secondary);
+      .lineTo(doc.page.width - 50, currentY)
+      .stroke(this.colors.secondary);
 
     currentY += 5;
 
@@ -381,7 +381,7 @@ export class PDFExportService {
 
         // Re-desenhar cabeçalhos
         doc.fontSize(this.fonts.body)
-           .fillColor(this.colors.primary);
+          .fillColor(this.colors.primary);
 
         headers.forEach(header => {
           doc.text(
@@ -394,13 +394,13 @@ export class PDFExportService {
 
         currentY += 15;
         doc.moveTo(50, currentY)
-           .lineTo(doc.page.width - 50, currentY)
-           .stroke(this.colors.secondary);
+          .lineTo(doc.page.width - 50, currentY)
+          .stroke(this.colors.secondary);
         currentY += 5;
       }
 
       doc.fontSize(this.fonts.small)
-         .fillColor(this.colors.dark);
+        .fillColor(this.colors.dark);
 
       // Data
       const transactionDate = new Date(transaction.date);
@@ -439,20 +439,20 @@ export class PDFExportService {
       const valuePrefix = transaction.type === 'income' ? '+' : '-';
 
       doc.fillColor(valueColor)
-         .text(
-           `${valuePrefix} R$ ${this.formatMoney(transaction.amount)}`,
-           headers[3].x,
-           currentY,
-           { width: headers[3].width, align: 'right' }
-         );
+        .text(
+          `${valuePrefix} R$ ${this.formatMoney(transaction.amount)}`,
+          headers[3].x,
+          currentY,
+          { width: headers[3].width, align: 'right' }
+        );
 
       currentY += rowHeight;
 
       // Linha separadora sutil (a cada 5 transações)
       if ((index + 1) % 5 === 0 && index < transactions.length - 1) {
         doc.moveTo(50, currentY - 5)
-           .lineTo(doc.page.width - 50, currentY - 5)
-           .stroke(this.colors.light);
+          .lineTo(doc.page.width - 50, currentY - 5)
+          .stroke(this.colors.light);
       }
     });
   }
@@ -473,8 +473,8 @@ export class PDFExportService {
     // Gastos por categoria
     if (report.categoryBreakdown && report.categoryBreakdown.length > 0) {
       doc.fontSize(this.fonts.heading)
-         .fillColor(this.colors.primary)
-         .text('Gastos por Categoria', { underline: true });
+        .fillColor(this.colors.primary)
+        .text('Gastos por Categoria', { underline: true });
 
       doc.moveDown(0.5);
 
@@ -487,20 +487,20 @@ export class PDFExportService {
 
         // Barra de progresso
         doc.rect(100, barY, barWidth, barHeight)
-           .stroke(this.colors.secondary);
+          .stroke(this.colors.secondary);
 
         doc.rect(100, barY, fillWidth, barHeight)
-           .fill(this.colors.info);
+          .fill(this.colors.info);
 
         // Texto da categoria
         doc.fontSize(this.fonts.small)
-           .fillColor(this.colors.dark)
-           .text(
-             `${cat.icon || '📊'} ${cat.name}`,
-             50,
-             barY + 2,
-             { width: 45, align: 'right' }
-           );
+          .fillColor(this.colors.dark)
+          .text(
+            `${cat.icon || '📊'} ${cat.name}`,
+            50,
+            barY + 2,
+            { width: 45, align: 'right' }
+          );
 
         // Valor e percentual
         doc.text(
@@ -517,21 +517,21 @@ export class PDFExportService {
     if (report.topTransactions && report.topTransactions.length > 0) {
       doc.moveDown(1);
       doc.fontSize(this.fonts.heading)
-         .fillColor(this.colors.primary)
-         .text('Maiores Despesas', { underline: true });
+        .fillColor(this.colors.primary)
+        .text('Maiores Despesas', { underline: true });
 
       doc.moveDown(0.5);
 
       report.topTransactions.slice(0, 5).forEach((trans, index) => {
         doc.fontSize(this.fonts.small)
-           .fillColor(this.colors.dark)
-           .text(`${index + 1}. ${trans.description || 'Sem descrição'}`);
+          .fillColor(this.colors.dark)
+          .text(`${index + 1}. ${trans.description || 'Sem descrição'}`);
 
         doc.fillColor(this.colors.danger)
-           .text(
-             `R$ ${this.formatMoney(trans.amount)}`,
-             { align: 'right' }
-           );
+          .text(
+            `R$ ${this.formatMoney(trans.amount)}`,
+            { align: 'right' }
+          );
 
         doc.moveDown(0.3);
       });
@@ -553,15 +553,15 @@ export class PDFExportService {
 
         // Nome da categoria
         doc.fontSize(this.fonts.subtitle)
-           .fillColor(this.colors.primary)
-           .text(`${category.icon || '📂'} ${category.name}`);
+          .fillColor(this.colors.primary)
+          .text(`${category.icon || '📂'} ${category.name}`);
 
         doc.moveDown(0.5);
 
         // Estatísticas
         doc.fontSize(this.fonts.body)
-           .fillColor(this.colors.secondary)
-           .text(`Total: R$ ${this.formatMoney(category.total)}`);
+          .fillColor(this.colors.secondary)
+          .text(`Total: R$ ${this.formatMoney(category.total)}`);
 
         doc.text(`Transações: ${category.count}`);
 
@@ -575,8 +575,8 @@ export class PDFExportService {
       });
     } else {
       doc.fontSize(this.fonts.body)
-         .fillColor(this.colors.secondary)
-         .text('Nenhuma categoria encontrada.', { align: 'center' });
+        .fillColor(this.colors.secondary)
+        .text('Nenhuma categoria encontrada.', { align: 'center' });
     }
   }
 
@@ -589,8 +589,8 @@ export class PDFExportService {
   addEvolutionReportContent(doc, report) {
     if (report.monthlyData && report.monthlyData.length > 0) {
       doc.fontSize(this.fonts.heading)
-         .fillColor(this.colors.primary)
-         .text('Evolução Mensal', { underline: true });
+        .fillColor(this.colors.primary)
+        .text('Evolução Mensal', { underline: true });
 
       doc.moveDown(1);
 
@@ -606,7 +606,7 @@ export class PDFExportService {
 
       // Cabeçalhos
       doc.fontSize(this.fonts.body)
-         .fillColor(this.colors.primary);
+        .fillColor(this.colors.primary);
 
       headers.forEach(header => {
         doc.text(
@@ -619,8 +619,8 @@ export class PDFExportService {
 
       currentY += 15;
       doc.moveTo(50, currentY)
-         .lineTo(doc.page.width - 50, currentY)
-         .stroke(this.colors.secondary);
+        .lineTo(doc.page.width - 50, currentY)
+        .stroke(this.colors.secondary);
       currentY += 5;
 
       // Dados
@@ -629,25 +629,25 @@ export class PDFExportService {
 
         // Mês
         doc.fillColor(this.colors.dark)
-           .text(month.label, headers[0].x, currentY, { width: headers[0].width });
+          .text(month.label, headers[0].x, currentY, { width: headers[0].width });
 
         // Receitas
         doc.fillColor(this.colors.success)
-           .text(
-             `R$ ${this.formatMoney(month.income || 0)}`,
-             headers[1].x,
-             currentY,
-             { width: headers[1].width, align: 'right' }
-           );
+          .text(
+            `R$ ${this.formatMoney(month.income || 0)}`,
+            headers[1].x,
+            currentY,
+            { width: headers[1].width, align: 'right' }
+          );
 
         // Despesas
         doc.fillColor(this.colors.danger)
-           .text(
-             `R$ ${this.formatMoney(month.expense || 0)}`,
-             headers[2].x,
-             currentY,
-             { width: headers[2].width, align: 'right' }
-           );
+          .text(
+            `R$ ${this.formatMoney(month.expense || 0)}`,
+            headers[2].x,
+            currentY,
+            { width: headers[2].width, align: 'right' }
+          );
 
         // Saldo
         const balance = (month.balance !== undefined)
@@ -656,12 +656,12 @@ export class PDFExportService {
         const balanceColor = balance >= 0 ? this.colors.success : this.colors.danger;
 
         doc.fillColor(balanceColor)
-           .text(
-             `R$ ${this.formatMoney(balance)}`,
-             headers[3].x,
-             currentY,
-             { width: headers[3].width, align: 'right' }
-           );
+          .text(
+            `R$ ${this.formatMoney(balance)}`,
+            headers[3].x,
+            currentY,
+            { width: headers[3].width, align: 'right' }
+          );
 
         currentY += 20;
       });
@@ -670,13 +670,13 @@ export class PDFExportService {
       if (report.trend) {
         doc.moveDown(2);
         doc.fontSize(this.fonts.body)
-           .fillColor(this.colors.dark)
-           .text(`Tendência: ${report.trend}`);
+          .fillColor(this.colors.dark)
+          .text(`Tendência: ${report.trend}`);
       }
     } else {
       doc.fontSize(this.fonts.body)
-         .fillColor(this.colors.secondary)
-         .text('Dados de evolução não disponíveis.', { align: 'center' });
+        .fillColor(this.colors.secondary)
+        .text('Dados de evolução não disponíveis.', { align: 'center' });
     }
   }
 
@@ -689,23 +689,23 @@ export class PDFExportService {
   addTopReportContent(doc, report) {
     if (report.topExpenses && report.topExpenses.length > 0) {
       doc.fontSize(this.fonts.heading)
-         .fillColor(this.colors.primary)
-         .text('Maiores Despesas', { underline: true });
+        .fillColor(this.colors.primary)
+        .text('Maiores Despesas', { underline: true });
 
       doc.moveDown(0.5);
 
       report.topExpenses.forEach((trans, index) => {
         doc.fontSize(this.fonts.body)
-           .fillColor(this.colors.dark)
-           .text(`${index + 1}. ${trans.description || 'Sem descrição'}`);
+          .fillColor(this.colors.dark)
+          .text(`${index + 1}. ${trans.description || 'Sem descrição'}`);
 
         doc.fontSize(this.fonts.small)
-           .fillColor(this.colors.secondary)
-           .text(`${trans.category_name || 'Sem categoria'} - ${this.formatDate(new Date(trans.date))}`);
+          .fillColor(this.colors.secondary)
+          .text(`${trans.category_name || 'Sem categoria'} - ${this.formatDate(new Date(trans.date))}`);
 
         doc.fontSize(this.fonts.subtitle)
-           .fillColor(this.colors.danger)
-           .text(`R$ ${this.formatMoney(trans.amount)}`, { align: 'right' });
+          .fillColor(this.colors.danger)
+          .text(`R$ ${this.formatMoney(trans.amount)}`, { align: 'right' });
 
         doc.moveDown(0.8);
       });
@@ -714,23 +714,23 @@ export class PDFExportService {
     if (report.topIncomes && report.topIncomes.length > 0) {
       doc.moveDown(1.5);
       doc.fontSize(this.fonts.heading)
-         .fillColor(this.colors.primary)
-         .text('Maiores Receitas', { underline: true });
+        .fillColor(this.colors.primary)
+        .text('Maiores Receitas', { underline: true });
 
       doc.moveDown(0.5);
 
       report.topIncomes.forEach((trans, index) => {
         doc.fontSize(this.fonts.body)
-           .fillColor(this.colors.dark)
-           .text(`${index + 1}. ${trans.description || 'Sem descrição'}`);
+          .fillColor(this.colors.dark)
+          .text(`${index + 1}. ${trans.description || 'Sem descrição'}`);
 
         doc.fontSize(this.fonts.small)
-           .fillColor(this.colors.secondary)
-           .text(`${trans.category_name || 'Sem categoria'} - ${this.formatDate(new Date(trans.date))}`);
+          .fillColor(this.colors.secondary)
+          .text(`${trans.category_name || 'Sem categoria'} - ${this.formatDate(new Date(trans.date))}`);
 
         doc.fontSize(this.fonts.subtitle)
-           .fillColor(this.colors.success)
-           .text(`R$ ${this.formatMoney(trans.amount)}`, { align: 'right' });
+          .fillColor(this.colors.success)
+          .text(`R$ ${this.formatMoney(trans.amount)}`, { align: 'right' });
 
         doc.moveDown(0.8);
       });
@@ -750,8 +750,8 @@ export class PDFExportService {
 
       // Período atual
       doc.fontSize(this.fonts.heading)
-         .fillColor(this.colors.primary)
-         .text('Período Atual', { underline: true });
+        .fillColor(this.colors.primary)
+        .text('Período Atual', { underline: true });
 
       doc.moveDown(0.5);
       this.addSummary(doc, current);
@@ -759,8 +759,8 @@ export class PDFExportService {
       // Período anterior
       doc.moveDown(2);
       doc.fontSize(this.fonts.heading)
-         .fillColor(this.colors.primary)
-         .text('Período Anterior', { underline: true });
+        .fillColor(this.colors.primary)
+        .text('Período Anterior', { underline: true });
 
       doc.moveDown(0.5);
       this.addSummary(doc, previous);
@@ -769,8 +769,8 @@ export class PDFExportService {
       if (report.variations) {
         doc.moveDown(2);
         doc.fontSize(this.fonts.heading)
-           .fillColor(this.colors.primary)
-           .text('Variações', { underline: true });
+          .fillColor(this.colors.primary)
+          .text('Variações', { underline: true });
 
         doc.moveDown(0.5);
         doc.fontSize(this.fonts.body);
@@ -780,9 +780,9 @@ export class PDFExportService {
           const sign = value >= 0 ? '+' : '';
 
           doc.fillColor(this.colors.dark)
-             .text(`${key}: `, { continued: true })
-             .fillColor(color)
-             .text(`${sign}${value.toFixed(1)}%`);
+            .text(`${key}: `, { continued: true })
+            .fillColor(color)
+            .text(`${sign}${value.toFixed(1)}%`);
 
           doc.moveDown(0.3);
         });
@@ -799,20 +799,20 @@ export class PDFExportService {
   addPatternsReportContent(doc, report) {
     if (report.patterns && report.patterns.length > 0) {
       doc.fontSize(this.fonts.heading)
-         .fillColor(this.colors.primary)
-         .text('Padrões Identificados', { underline: true });
+        .fillColor(this.colors.primary)
+        .text('Padrões Identificados', { underline: true });
 
       doc.moveDown(1);
 
       report.patterns.forEach((pattern, index) => {
         doc.fontSize(this.fonts.body)
-           .fillColor(this.colors.dark)
-           .text(`${index + 1}. ${pattern.description}`);
+          .fillColor(this.colors.dark)
+          .text(`${index + 1}. ${pattern.description}`);
 
         if (pattern.frequency) {
           doc.fontSize(this.fonts.small)
-             .fillColor(this.colors.secondary)
-             .text(`Frequência: ${pattern.frequency}`);
+            .fillColor(this.colors.secondary)
+            .text(`Frequência: ${pattern.frequency}`);
         }
 
         if (pattern.impact) {
@@ -826,15 +826,15 @@ export class PDFExportService {
     if (report.insights && report.insights.length > 0) {
       doc.moveDown(1.5);
       doc.fontSize(this.fonts.heading)
-         .fillColor(this.colors.primary)
-         .text('Insights', { underline: true });
+        .fillColor(this.colors.primary)
+        .text('Insights', { underline: true });
 
       doc.moveDown(0.5);
 
       report.insights.forEach(insight => {
         doc.fontSize(this.fonts.body)
-           .fillColor(this.colors.info)
-           .text(`💡 ${insight}`);
+          .fillColor(this.colors.info)
+          .text(`💡 ${insight}`);
 
         doc.moveDown(0.5);
       });
@@ -856,18 +856,18 @@ export class PDFExportService {
 
       // Linha decorativa
       doc.moveTo(50, bottomY - 10)
-         .lineTo(doc.page.width - 50, bottomY - 10)
-         .stroke(this.colors.info);
+        .lineTo(doc.page.width - 50, bottomY - 10)
+        .stroke(this.colors.info);
 
       // Texto do footer
       doc.fontSize(this.fonts.small)
-         .fillColor(this.colors.secondary)
-         .text(
-           `Sistema de Gestão Financeira Pessoal - Página ${i + 1} de ${pages.count}`,
-           50,
-           bottomY,
-           { align: 'center', width: doc.page.width - 100 }
-         );
+        .fillColor(this.colors.secondary)
+        .text(
+          `Sistema de Gestão Financeira Pessoal - Página ${i + 1} de ${pages.count}`,
+          50,
+          bottomY,
+          { align: 'center', width: doc.page.width - 100 }
+        );
     }
   }
 

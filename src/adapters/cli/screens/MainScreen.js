@@ -71,131 +71,131 @@ export class MainScreen {
     );
 
     switch (choice) {
-      case 'dashboard':
-        if (this.getDashboardDataUseCase) {
-          const dashboardScreen = new DashboardScreen(
-            this.user,
-            this.getDashboardDataUseCase,
-            this.budgetUseCases ? this.budgetUseCases.listBudgets : null,
-            this.goalUseCases ? this.goalUseCases.listGoals : null
-          );
-          const action = await dashboardScreen.show();
+    case 'dashboard':
+      if (this.getDashboardDataUseCase) {
+        const dashboardScreen = new DashboardScreen(
+          this.user,
+          this.getDashboardDataUseCase,
+          this.budgetUseCases ? this.budgetUseCases.listBudgets : null,
+          this.goalUseCases ? this.goalUseCases.listGoals : null
+        );
+        const action = await dashboardScreen.show();
 
-          // Se retornou 'transactions', navegar para tela de transações
-          if (action === 'transactions') {
-            if (this.transactionUseCases && this.categoryUseCases) {
-              const transactionScreen = new TransactionScreen(
-                this.user,
-                this.transactionUseCases,
-                this.categoryUseCases
-              );
-              await transactionScreen.show();
-            }
+        // Se retornou 'transactions', navegar para tela de transações
+        if (action === 'transactions') {
+          if (this.transactionUseCases && this.categoryUseCases) {
+            const transactionScreen = new TransactionScreen(
+              this.user,
+              this.transactionUseCases,
+              this.categoryUseCases
+            );
+            await transactionScreen.show();
           }
-        } else {
-          await this.showComingSoon('Dashboard');
         }
-        return await this.show();
-      case 'income':
-        if (this.transactionUseCases && this.categoryUseCases) {
-          const transactionScreen = new TransactionScreen(
-            this.user,
-            this.transactionUseCases,
-            this.categoryUseCases
-          );
-          const addForm = transactionScreen.addTransactionForm;
-          await addForm.show('income');
-        } else {
-          await this.showComingSoon('Nova Receita');
-        }
-        return await this.show();
-      case 'expense':
-        if (this.transactionUseCases && this.categoryUseCases) {
-          const transactionScreen = new TransactionScreen(
-            this.user,
-            this.transactionUseCases,
-            this.categoryUseCases
-          );
-          const addForm = transactionScreen.addTransactionForm;
-          await addForm.show('expense');
-        } else {
-          await this.showComingSoon('Nova Despesa');
-        }
-        return await this.show();
-      case 'categories':
-        if (this.categoryUseCases) {
-          const categoryScreen = new CategoryScreen(
-            this.user,
-            this.categoryUseCases.createCategoryUseCase,
-            this.categoryUseCases.listCategoriesUseCase,
-            this.categoryUseCases.updateCategoryUseCase,
-            this.categoryUseCases.deleteCategoryUseCase
-          );
-          await categoryScreen.show();
-        } else {
-          await this.showComingSoon('Categorias');
-        }
-        return await this.show();
-      case 'transactions':
-        if (this.transactionUseCases && this.categoryUseCases) {
-          const transactionScreen = new TransactionScreen(
-            this.user,
-            this.transactionUseCases,
-            this.categoryUseCases
-          );
-          await transactionScreen.show();
-        } else {
-          await this.showComingSoon('Transações');
-        }
-        return await this.show();
-      case 'reports':
-        if (this.reportUseCases) {
-          const reportsScreen = new ReportsScreen(
-            this.user,
-            this.reportUseCases,
-            this.categoryUseCases
-          );
-          await reportsScreen.show();
-        } else {
-          await this.showComingSoon('Relatórios');
-        }
-        return await this.show();
-      case 'budgets':
-        if (this.budgetUseCases && this.categoryUseCases) {
-          const budgetScreen = new BudgetScreen(
-            this.user,
-            this.budgetUseCases,
-            this.categoryUseCases
-          );
-          await budgetScreen.show();
-        } else {
-          await this.showComingSoon('Orçamentos');
-        }
-        return await this.show();
-      case 'goals':
-        if (this.goalUseCases) {
-          const goalScreen = new GoalScreen(
-            this.user,
-            this.goalUseCases
-          );
-          await goalScreen.show();
-        } else {
-          await this.showComingSoon('Metas Financeiras');
-        }
-        return await this.show();
-      case 'export':
-        if (this.exportUseCases) {
-          const exportScreen = new ExportScreen(this.exportUseCases);
-          await exportScreen.show(this.user);
-        } else {
-          await this.showComingSoon('Exportação de Dados');
-        }
-        return await this.show();
-      case 'settings':
-        await this.showComingSoon('Configurações');
-        return await this.show();
-      case 'exit':
-        return 'exit';
+      } else {
+        await this.showComingSoon('Dashboard');
+      }
+      return await this.show();
+    case 'income':
+      if (this.transactionUseCases && this.categoryUseCases) {
+        const transactionScreen = new TransactionScreen(
+          this.user,
+          this.transactionUseCases,
+          this.categoryUseCases
+        );
+        const addForm = transactionScreen.addTransactionForm;
+        await addForm.show('income');
+      } else {
+        await this.showComingSoon('Nova Receita');
+      }
+      return await this.show();
+    case 'expense':
+      if (this.transactionUseCases && this.categoryUseCases) {
+        const transactionScreen = new TransactionScreen(
+          this.user,
+          this.transactionUseCases,
+          this.categoryUseCases
+        );
+        const addForm = transactionScreen.addTransactionForm;
+        await addForm.show('expense');
+      } else {
+        await this.showComingSoon('Nova Despesa');
+      }
+      return await this.show();
+    case 'categories':
+      if (this.categoryUseCases) {
+        const categoryScreen = new CategoryScreen(
+          this.user,
+          this.categoryUseCases.createCategoryUseCase,
+          this.categoryUseCases.listCategoriesUseCase,
+          this.categoryUseCases.updateCategoryUseCase,
+          this.categoryUseCases.deleteCategoryUseCase
+        );
+        await categoryScreen.show();
+      } else {
+        await this.showComingSoon('Categorias');
+      }
+      return await this.show();
+    case 'transactions':
+      if (this.transactionUseCases && this.categoryUseCases) {
+        const transactionScreen = new TransactionScreen(
+          this.user,
+          this.transactionUseCases,
+          this.categoryUseCases
+        );
+        await transactionScreen.show();
+      } else {
+        await this.showComingSoon('Transações');
+      }
+      return await this.show();
+    case 'reports':
+      if (this.reportUseCases) {
+        const reportsScreen = new ReportsScreen(
+          this.user,
+          this.reportUseCases,
+          this.categoryUseCases
+        );
+        await reportsScreen.show();
+      } else {
+        await this.showComingSoon('Relatórios');
+      }
+      return await this.show();
+    case 'budgets':
+      if (this.budgetUseCases && this.categoryUseCases) {
+        const budgetScreen = new BudgetScreen(
+          this.user,
+          this.budgetUseCases,
+          this.categoryUseCases
+        );
+        await budgetScreen.show();
+      } else {
+        await this.showComingSoon('Orçamentos');
+      }
+      return await this.show();
+    case 'goals':
+      if (this.goalUseCases) {
+        const goalScreen = new GoalScreen(
+          this.user,
+          this.goalUseCases
+        );
+        await goalScreen.show();
+      } else {
+        await this.showComingSoon('Metas Financeiras');
+      }
+      return await this.show();
+    case 'export':
+      if (this.exportUseCases) {
+        const exportScreen = new ExportScreen(this.exportUseCases);
+        await exportScreen.show(this.user);
+      } else {
+        await this.showComingSoon('Exportação de Dados');
+      }
+      return await this.show();
+    case 'settings':
+      await this.showComingSoon('Configurações');
+      return await this.show();
+    case 'exit':
+      return 'exit';
     }
   }
 
@@ -207,7 +207,7 @@ export class MainScreen {
     console.log('\n');
     console.log(createBox(
       `${icons.warning} Funcionalidade "${feature}" em desenvolvimento!\n\n` +
-      `Esta funcionalidade será implementada em breve.`,
+      'Esta funcionalidade será implementada em breve.',
       { borderColor: 'yellow', padding: 2 }
     ));
     console.log('\n');

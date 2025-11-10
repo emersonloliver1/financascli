@@ -228,7 +228,8 @@ class App {
         if (!currentUser) {
           const authScreen = new AuthScreen(
             this.registerUseCase,
-            this.loginUseCase
+            this.loginUseCase,
+            this.userRepository
           );
           currentUser = await authScreen.show();
 

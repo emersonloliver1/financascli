@@ -52,15 +52,15 @@ export class DashboardScreen {
 
       // Processar escolha
       switch (choice) {
-        case 'refresh':
-          // Recarregar dashboard
-          return await this.show();
-        case 'transactions':
-          // Voltar e navegar para transações
-          return 'transactions';
-        case 'back':
-        default:
-          return 'back';
+      case 'refresh':
+        // Recarregar dashboard
+        return await this.show();
+      case 'transactions':
+        // Voltar e navegar para transações
+        return 'transactions';
+      case 'back':
+      default:
+        return 'back';
       }
     } catch (error) {
       console.error('\n');
@@ -205,8 +205,8 @@ export class DashboardScreen {
     console.log('\n');
     console.log(createBox(
       `${icons.info} Dashboard vazio!\n\n` +
-      `Você ainda não possui transações cadastradas.\n` +
-      `Adicione sua primeira transação para ver os gráficos e estatísticas.`,
+      'Você ainda não possui transações cadastradas.\n' +
+      'Adicione sua primeira transação para ver os gráficos e estatísticas.',
       { borderColor: 'yellow', padding: 2 }
     ));
     console.log('\n');
@@ -221,6 +221,7 @@ export class DashboardScreen {
     // Se tem cor, precisamos calcular o tamanho real sem os códigos ANSI
     if (hasColor) {
       // Remover códigos ANSI para calcular tamanho real
+      // eslint-disable-next-line no-control-regex
       const plainText = text.replace(/\x1b\[[0-9;]*m/g, '');
       const padding = width - plainText.length;
       return text + ' '.repeat(Math.max(0, padding));

@@ -2,10 +2,11 @@
  * User Entity - Entidade de domínio representando um usuário
  */
 export class User {
-  constructor({ id, email, name, createdAt, updatedAt }) {
+  constructor({ id, email, name, username, createdAt, updatedAt }) {
     this.id = id;
     this.email = email;
     this.name = name;
+    this.username = username || null;
     this.createdAt = createdAt || new Date();
     this.updatedAt = updatedAt || new Date();
   }
@@ -57,6 +58,7 @@ export class User {
       id: this.id,
       email: this.email,
       name: this.name,
+      username: this.username,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     };

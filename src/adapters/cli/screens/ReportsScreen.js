@@ -74,24 +74,24 @@ export class ReportsScreen {
       let report = null;
 
       switch (type) {
-        case 'monthly':
-          report = await this._generateMonthlyReport();
-          break;
-        case 'category':
-          report = await this._generateCategoryReport();
-          break;
-        case 'evolution':
-          report = await this._generateEvolutionReport();
-          break;
-        case 'top':
-          report = await this._generateTopTransactionsReport();
-          break;
-        case 'comparative':
-          report = await this._generateComparativeReport();
-          break;
-        case 'patterns':
-          report = await this._generatePatternAnalysisReport();
-          break;
+      case 'monthly':
+        report = await this._generateMonthlyReport();
+        break;
+      case 'category':
+        report = await this._generateCategoryReport();
+        break;
+      case 'evolution':
+        report = await this._generateEvolutionReport();
+        break;
+      case 'top':
+        report = await this._generateTopTransactionsReport();
+        break;
+      case 'comparative':
+        report = await this._generateComparativeReport();
+        break;
+      case 'patterns':
+        report = await this._generatePatternAnalysisReport();
+        break;
       }
 
       if (report) {

@@ -244,7 +244,7 @@ export class TransactionRepository extends ITransactionRepository {
     }
 
     // Adicionar updated_at
-    updateFields.push(`updated_at = NOW()`);
+    updateFields.push('updated_at = NOW()');
 
     // Adicionar ID no final dos params
     params.push(id);

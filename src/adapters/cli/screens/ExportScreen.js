@@ -307,57 +307,58 @@ export class ExportScreen {
     const options = {};
 
     switch (reportType) {
-      case 'monthly':
-        const { month } = await inquirer.prompt([
-          {
-            type: 'input',
-            name: 'month',
-            message: 'Mês (MM/AAAA ou deixe vazio para mês atual):',
-            validate: (input) => {
-              if (!input) return true;
-              return this.isValidMonth(input) || 'Mês inválido. Use MM/AAAA';
-            }
+    case 'monthly': {
+      const { month } = await inquirer.prompt([
+        {
+          type: 'input',
+          name: 'month',
+          message: 'Mês (MM/AAAA ou deixe vazio para mês atual):',
+          validate: (input) => {
+            if (!input) return true;
+            return this.isValidMonth(input) || 'Mês inválido. Use MM/AAAA';
           }
-        ]);
-
-        if (month) {
-          options.month = this.parseMonth(month);
         }
-        break;
+      ]);
 
-      case 'evolution':
-        const { months } = await inquirer.prompt([
-          {
-            type: 'input',
-            name: 'months',
-            message: 'Quantos meses analisar? (padrão: 6)',
-            default: '6',
-            validate: (input) => {
-              const num = parseInt(input);
-              return (num > 0 && num <= 24) || 'Digite um número entre 1 e 24';
-            }
+      if (month) {
+        options.month = this.parseMonth(month);
+      }
+      break;
+    }
+    case 'evolution': {
+      const { months } = await inquirer.prompt([
+        {
+          type: 'input',
+          name: 'months',
+          message: 'Quantos meses analisar? (padrão: 6)',
+          default: '6',
+          validate: (input) => {
+            const num = parseInt(input);
+            return (num > 0 && num <= 24) || 'Digite um número entre 1 e 24';
           }
-        ]);
+        }
+      ]);
 
-        options.months = parseInt(months);
-        break;
-
-      case 'top':
-        const { limit } = await inquirer.prompt([
-          {
-            type: 'input',
-            name: 'limit',
-            message: 'Quantas transações mostrar? (padrão: 10)',
-            default: '10',
-            validate: (input) => {
-              const num = parseInt(input);
-              return (num > 0 && num <= 50) || 'Digite um número entre 1 e 50';
-            }
+      options.months = parseInt(months);
+      break;
+    }
+    case 'top': {
+      const { limit } = await inquirer.prompt([
+        {
+          type: 'input',
+          name: 'limit',
+          message: 'Quantas transações mostrar? (padrão: 10)',
+          default: '10',
+          validate: (input) => {
+            const num = parseInt(input);
+            return (num > 0 && num <= 50) || 'Digite um número entre 1 e 50';
           }
-        ]);
+        }
+      ]);
 
-        options.limit = parseInt(limit);
-        break;
+      options.limit = parseInt(limit);
+      break;
+    }
     }
 
     return options;

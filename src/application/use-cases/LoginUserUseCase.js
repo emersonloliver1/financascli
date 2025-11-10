@@ -8,15 +8,15 @@ export class LoginUserUseCase {
 
   /**
    * Executa o login do usuário
-   * @param {Object} credentials - {email, password}
+   * @param {Object} credentials - {usernameOrEmail, password}
    * @returns {Promise<{success: boolean, user?: User, errors?: string[]}>}
    */
-  async execute({ email, password }) {
+  async execute({ usernameOrEmail, password }) {
     const errors = [];
 
     // Validações básicas
-    if (!email || !email.trim()) {
-      errors.push('Email é obrigatório');
+    if (!usernameOrEmail || !usernameOrEmail.trim()) {
+      errors.push('Username ou email é obrigatório');
     }
 
     if (!password || !password.trim()) {
@@ -28,7 +28,7 @@ export class LoginUserUseCase {
     }
 
     // Tentar fazer login
-    const result = await this.authService.login({ email, password });
+    const result = await this.authService.login({ usernameOrEmail, password });
 
     if (!result.success) {
       return { success: false, errors: [result.error || 'Email ou senha inválidos'] };

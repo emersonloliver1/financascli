@@ -69,7 +69,7 @@ export class TransactionList {
       if (result.transactions.length === 0) {
         console.log(createBox(
           `${icons.warning} NENHUMA TRANSAÇÃO ENCONTRADA\n\n` +
-          `Adicione sua primeira transação no menu principal!`,
+          'Adicione sua primeira transação no menu principal!',
           { borderColor: 'yellow', padding: 2 }
         ));
         console.log('\n');
@@ -249,7 +249,7 @@ export class TransactionList {
     console.log('\n');
     console.log(createBox(
       `${icons.warning} CONFIRMAR EXCLUSÃO\n\n` +
-      `Deseja realmente deletar?\n\n` +
+      'Deseja realmente deletar?\n\n' +
       `${transaction.getSummary()}`,
       { borderColor: 'red', padding: 2 }
     ));
