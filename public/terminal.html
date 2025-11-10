@@ -284,6 +284,11 @@
                 term.write(data);
             });
 
+            // Keep-alive: responder ao ping do servidor
+            socket.on('ping', () => {
+                socket.emit('pong');
+            });
+
             // Enviar input do terminal para servidor
             term.onData((data) => {
                 if (socket && socket.connected) {
